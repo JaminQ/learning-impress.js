@@ -198,9 +198,12 @@
         In the example below we only specify x and y position of the step element with `data-x="-1000"`
         and `data-y="-1500"` attributes. This means that **the center** of the element (yes, the center)
         will be positioned in point x = -1000px and y = -1500px of the presentation 'canvas'.
-        在下面的实例里
+        在下面的例子中我们仅仅用了`data-x="-1000"`和`data-y="-1500"`属性来指定幻灯片元素的x和y坐标.这位
+        置意味着这张幻灯片的**正中心坐标**(没错,正中心坐标)将被设置在x = -1000px和y = -1500px这个点上,这
+        个点是该幻灯片放映时'投影机'的正中心.
 
         It will not be rotated or scaled.
+        这张幻灯片不带有任何的旋转和缩放.
 
     -->
     <div id="bored" class="step slide" data-x="-1000" data-y="-1500">
@@ -211,15 +214,24 @@
 
         The `id` attribute of the step element is used to identify it in the URL, but it's optional.
         If it is not defined, it will get a default value of `step-N` where N is a number of slide.
+        幻灯片元素的`id`属性用于指定该幻灯片在URL上的信息(你会看到URL的后面会带有"/#/id"的),不过这是可选的.
+        如果没有定义它,那么在URL上面将会看到一个默认值`step-N`,N是当前幻灯片的索引.
 
         So in the example below it'll be `step-2`.
+        所以下面这个例子你将会在URL里看到`step-2`.
 
         The hash part of the url when this step is active will be `#/step-2`.
+        当播放到下面这张幻灯片时，URL的#片段(即hash part,其实就是URL的一部分,hash代表#,指以#开始的部分,详见
+        WiKi上对URL的解释:https://en.wikipedia.org/wiki/Uniform_Resource_Locator,嗯……要看英文版的,
+        中文版的没有讲hash part,可能是没有及时更新吧……)将会是`#/step-2`.
 
         You can also use `#step-2` in a link, to point directly to this particular step.
+        你也可以在一个链接里使用`#step-2`来直接跳转到指定的幻灯片.(在这里是跳转到第2张幻灯片)
 
         Please note, that while `#/step-2` (with slash) would also work in a link it's not recommended.
         Using classic `id`-based links like `#step-2` makes these links usable also in fallback mode.
+        请注意,虽然在链接中使用`#/step-2`(带上斜杠)也能够运行,但是这种用法不被推荐.使用像`#step-2`的经典锚链
+        接用法可以使这些链接在兼容模式下也能正常工作.
 
     -->
     <div class="step slide" data-x="0" data-y="-1500">
