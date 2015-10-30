@@ -245,11 +245,16 @@
     <!--
 
         This is an example of step element being scaled.
+        这是一个将幻灯片缩放的示例.
 
         Again, we use a `data-` attribute, this time it's `data-scale="4"`, so it means that this
         element will be 4 times larger than the others.
         From presentation and transitions point of view it means, that it will have to be scaled
         down (4 times) to make it back to its correct size.
+        同样的,我们要使用`data-`属性,这一次用的是`data-scale="4"`,所以这意味着该幻灯片将会被放大4倍(和其它
+        幻灯片比较).
+        从演示文稿和转场的角度来看这意味着,在下一张幻灯片里需要缩小(4倍)才能回复原来的尺寸(其实只要设置为
+        `data-scale="1"`就可以了,因为缩放的倍数是和初始值做比较的,不是和上一张幻灯片做比较,所以别用0.25).
 
     -->
     <div id="title" class="step" data-x="0" data-y="0" data-scale="4">
@@ -261,9 +266,12 @@
     <!--
 
         This element introduces rotation.
+        这张幻灯片将会介绍旋转.
 
         Notation shouldn't be a surprise. We use `data-rotate="90"` attribute, meaning that this
         element should be rotated by 90 degrees clockwise.
+        用法也没有什么好吃惊的.我们使用`data-rotate="90"`属性,这意味着这张幻灯片将会被顺时针旋转90度(和缩放
+        一样,旋转是和初始值做比较的,所以下面id="big"的幻灯片只是顺时针旋转了90度,而不是180度).
 
     -->
     <div id="its" class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
@@ -279,10 +287,13 @@
     <!--
 
         And now it gets really exciting! We move into third dimension!
+        现在开始变得激动了!我们开始迈进第三维度(3D世界)!
 
         Along with `data-x` and `data-y`, you can define the position on third (Z) axis, with
         `data-z`. In the example below we use `data-z="-3000"` meaning that element should be
         positioned far away from us (by 3000px).
+        见识过`data-x`和`data-y`后,你可以定义第三条坐标轴(Z,即竖坐标轴)为`data-z`.在下面这个例子中我们使用
+        `data-z="-3000"`来表示幻灯片被定位在离我们很远很远(有3000px远呢).
 
     -->
     <div id="tiny" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
@@ -295,9 +306,12 @@
         should notice in the demo that some words of this text are being animated.
         It's a very basic CSS transition that is applied to the elements when this step element is
         reached.
+        这张幻灯片里不再介绍任何关于data属性的新知识,但是你应该注意到这个demo里的一些文字是会动的.
+        这是一些非常基础的CSS过渡,当播放到这张幻灯片时这些动画就会执行起来.
 
         At the very beginning of the presentation all step elements are given the class of `future`.
         It means that they haven't been visited yet.
+        
 
         When the presentation moves to given step `future` is changed to `present` class name.
         That's how animation on this step works - text moves when the step has `present` class.
