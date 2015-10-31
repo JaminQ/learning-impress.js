@@ -311,16 +311,20 @@
 
         At the very beginning of the presentation all step elements are given the class of `future`.
         It means that they haven't been visited yet.
-        
+        在演示文稿一开始播放时所有的幻灯片元素都会被赋予`future`类.这意味着那些幻灯片还没有播放过.
 
         When the presentation moves to given step `future` is changed to `present` class name.
         That's how animation on this step works - text moves when the step has `present` class.
+        当演示文稿播放时,会将当前幻灯片的类从`future`变成`present`.动画在有`present`类时将会运动起来.
 
         Finally when the step is left the `present` class is removed from the element and `past`
         class is added.
+        最后当这张幻灯片播放完后(即切换到下一张幻灯片)`present`类将会变成`past`类.
 
         So basically every step element has one of three classes: `future`, `present` and `past`.
         Only one current step has the `present` class.
+        所以每一张幻灯片都有以下三种类的其中一种:`future`,`present`和`past`.只有当前正在播放的幻灯片元素才
+        能拥有`present`类.
 
     -->
     <div id="ing" class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
@@ -343,13 +347,18 @@
     <!--
 
         And the last one shows full power and flexibility of impress.js.
+        最后我们将会向你介绍impress.js的所有能力和灵活.
 
         You can not only position element in 3D, but also rotate it around any axis.
         So this one here will get rotated by -40 degrees (40 degrees anticlockwise) around X axis and
         10 degrees (clockwise) around Y axis.
+        你不仅可以将元素定位在3D(即第三维度,Z轴),还可以让它围绕空间任意轴旋转.
+        下面这一张幻灯片将会旋转到X轴的-40度(逆时针方向40度)以及Y轴的10度(顺时针方向).
 
         You can of course rotate it around Z axis with `data-rotate-z` - it has exactly the same effect
         as `data-rotate` (these two are basically aliases).
+        你可以使用`data-rotate-z`属性来操纵幻灯片在Z轴上旋转,这等价于你使用`data-rotate`属性(这两个属性
+        都基于同一个坐标轴旋转).
 
     -->
     <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
@@ -360,6 +369,7 @@
     <!--
 
         So to summarize of all the possible attributes used to position presentation steps, we have:
+        现在我们总结一下所有可以用于定位幻灯片的属性:
 
         * `data-x`, `data-y`, `data-z` - they define the position of **the center** of step element on
             the canvas in pixels; their default value is 0;
@@ -367,9 +377,16 @@
             the element around given axis in degrees; their default value is 0; `data-rotate` and `data-rotate-z`
             are exactly the same;
         * `data-scale` - defines the scale of step element; default value is 1
+        * `data-x`, `data-y`, `data-z` - 它们用于定义当前幻灯片的**正中心位置**在坐标轴上的位置;它们的默
+        认值为0;
+        * `data-rotate-x`, `data-rotate-y`, 'data-rotate-z`, `data-rotate` - 它们用于定义当前幻灯片
+        在坐标轴上的旋转;它们的默认值为0;`data-rotate`和`data-rotate-z`其实是一样的;
+        * `data-scale` - 用于定义当前幻灯片的缩放倍数;它的默认值为1
 
         These values are used by impress.js in CSS transformation functions, so for more information consult
         CSS transfrom docs: https://developer.mozilla.org/en/CSS/transform
+        这些值都会被impress.js在CSS变形函数里使用,有关它的更多信息,请参阅CSS变形文档:
+        https://developer.mozilla.org/en/CSS/transform
 
     -->
     <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
@@ -380,13 +397,16 @@
 <!--
 
     Hint is not related to impress.js in any way.
+    提示部分(即下面类为hint的div)跟impress.js没有任何的关系.
 
     But it can show you how to use impress.js features in creative way.
+    但是它可以告诉你如何更生动、更有创意地使用impress.js的特性.
 
     When the presentation step is shown (selected) its element gets the class of "active" and the body element
     gets the class based on active step id `impress-on-ID` (where ID is the step's id)... It may not be
     so clear because of all these "ids" in previous sentence, so for example when the first step (the one with
     the id of `bored`) is active, body element gets a class of `impress-on-bored`.
+    
 
     This class is used by this hint below. Check CSS file to see how it's shown with delayed CSS animation when
     the first step of presentation is visible for a couple of seconds.
