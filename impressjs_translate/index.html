@@ -221,7 +221,7 @@
         所以下面这个例子你将会在URL里看到`step-2`.
 
         The hash part of the url when this step is active will be `#/step-2`.
-        当播放到下面这张幻灯片时，URL的#片段(即hash part,其实就是URL的一部分,hash代表#,指以#开始的部分,详见
+        当播放到下面这张幻灯片时,URL的#片段(即hash part,其实就是URL的一部分,hash代表#,指以#开始的部分,详见
         WiKi上对URL的解释:https://en.wikipedia.org/wiki/Uniform_Resource_Locator,嗯……要看英文版的,
         中文版的没有讲hash part,可能是没有及时更新吧……)将会是`#/step-2`.
 
@@ -406,7 +406,9 @@
     gets the class based on active step id `impress-on-ID` (where ID is the step's id)... It may not be
     so clear because of all these "ids" in previous sentence, so for example when the first step (the one with
     the id of `bored`) is active, body element gets a class of `impress-on-bored`.
-    
+    幻灯片在播放时(或者是被选中),该元素将获得"active"类,而且body元素将获得当前在播放的幻灯片元素的id`impress-
+    on-ID`(ID是当前幻灯片的id值)...它可能不是很清晰,因为在先前句子中得所有"ids",因此,例如,第一张幻灯片(一个
+    id为`bored`的元素)在播放时,body元素获取留下好印象对无聊的一类``.
 
     This class is used by this hint below. Check CSS file to see how it's shown with delayed CSS animation when
     the first step of presentation is visible for a couple of seconds.
