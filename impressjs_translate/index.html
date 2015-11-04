@@ -407,11 +407,13 @@
     so clear because of all these "ids" in previous sentence, so for example when the first step (the one with
     the id of `bored`) is active, body element gets a class of `impress-on-bored`.
     幻灯片在播放时(或者是被选中),该元素将获得"active"类,而且body元素将获得当前在播放的幻灯片元素的id`impress-
-    on-ID`(ID是当前幻灯片的id值)...它可能不是很清晰,因为在先前句子中得所有"ids",因此,例如,第一张幻灯片(一个
-    id为`bored`的元素)在播放时,body元素获取留下好印象对无聊的一类``.
+    on-ID`(ID是当前幻灯片的id值)...可能大家理解得不是很清晰,毕竟前面出现了各种各样的"ids",所以咱们举个例子来解
+    释清楚,当第一张幻灯片(id为`bored`的那张幻灯片)在播放时,body元素将获得一个类`impress-on-bored`.
 
     This class is used by this hint below. Check CSS file to see how it's shown with delayed CSS animation when
     the first step of presentation is visible for a couple of seconds.
+    下面的提示部分(类为hint的div)将会用到这个类.翻一下CSS文件看看这个类是怎么实现CSS延时动画的,延时动画是当第一
+    张幻灯片连续播放了几秒钟都没有操作时就会加载的动画.
 
     ...
 
@@ -419,8 +421,13 @@
     It's just a quick and dirty workaround to get different hint text for touch devices.
     In a real world it should be at least placed in separate JS file ... and the touch content should be
     probably just hidden somewhere in HTML - not hard-coded in the script.
+    接下来要开始说下面这块JavaScript代码了 ... 孩子,千万别在家做这事 ;)
+    这只是一个为触屏设备得到不同提示文本的快速而且肮脏的解决方法.
+    在实际中至少应该把它放置在单独的JS文件里 ... 而且这提示文本应该放在HTML中一个隐藏的地方 - 而不是在script中
+    写硬代码.
 
     Just sayin' ;)
+    只是随口说说而已' ;)
 
 -->
 <div class="hint">
@@ -435,16 +442,22 @@ if ("ontouchstart" in document.documentElement) {
 <!--
 
     Last, but not least.
+    最后,但同样很重要.
 
     To make all described above really work, you need to include impress.js in the page.
     I strongly encourage to minify it first.
+    要让上面描述的所有所有都运作起来,你需要在页面中引入impress.js.
 
     In here I just include full source of the script to make it more readable.
+    在这里我引入了impress.js的完整未压缩源代码只是为了让它更具有可读性而已.
 
     You also need to call a `impress().init()` function to initialize impress.js presentation.
     And you should do it in the end of your document. Not only because it's a good practice, but also
     because it should be done when the whole document is ready.
     Of course you can wrap it in any kind of "DOM ready" event, but I was too lazy to do so ;)
+    你还需要执行一个叫做`impress().init()`的函数去初始化impress.js幻灯片.
+    还有,你应该在文档的最末尾执行它.不仅仅因为这是一个好习惯,而且因为它必须在完整的文档加载完毕后才能运行.
+    当然你可以把它内嵌在任何一种"DOM ready"事件里面,我只是懒得这么做而已 ;)
 
 -->
 <script src="js/impress.js"></script>
