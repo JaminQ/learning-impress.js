@@ -455,7 +455,7 @@ if ("ontouchstart" in document.documentElement) {
     And you should do it in the end of your document. Not only because it's a good practice, but also
     because it should be done when the whole document is ready.
     Of course you can wrap it in any kind of "DOM ready" event, but I was too lazy to do so ;)
-    你还需要执行一个叫做`impress().init()`的函数去初始化impress.js幻灯片.
+    你还需要执行一个叫做`impress().init()`的函数去初始化impress.js演示文稿.
     还有,你应该在文档的最末尾执行它.不仅仅因为这是一个好习惯,而且因为它必须在完整的文档加载完毕后才能运行.
     当然你可以把它内嵌在任何一种"DOM ready"事件里面,我只是懒得这么做而已 ;)
 
@@ -466,12 +466,15 @@ if ("ontouchstart" in document.documentElement) {
 <!--
 
     The `impress()` function also gives you access to the API that controls the presentation.
+    除此以外,`impress()`函数还给你提供了一些用于控制演示文稿的接口API.
 
     Just store the result of the call:
+    先把函数执行后的返回结果保存下来:
 
         var api = impress();
 
     and you will get three functions you can call:
+    然后你将会获得三个可以执行的函数:
 
         `api.init()` - initializes the presentation,
         `api.next()` - moves to next step of the presentation,
@@ -479,12 +482,21 @@ if ("ontouchstart" in document.documentElement) {
         `api.goto( idx | id | element, [duration] )` - moves the presentation to the step given by its index number
                 id or the DOM element; second parameter can be used to define duration of the transition in ms,
                 but it's optional - if not provided default transition duration for the presentation will be used.
+        `api.init()` - 初始化演示文稿,
+        `api.next()` - 切换到下一张幻灯片,
+        `api.prev()` - 切换到上一张幻灯片,
+        `api.goto( idx | id | element, [duration] )` - 根据指定的索引号或id或DOM元素切换到指定的幻灯片;
+                第二个参数可以用来指定切换幻灯片所需的时间(单位是ms),但是它是可选的 - 如果没有提供这个参数将会
+                使用默认的幻灯片切换过渡时间值.
 
     You can also simply call `impress()` again to get the API, so `impress().next()` is also allowed.
     Don't worry, it wont initialize the presentation again.
+    你也可以再一次执行`impress()`函数来获得这些API,所以,直接执行`impress().next()`也是可以的.
+    别担心,它不会再一次初始化演示文稿的.
 
     For some example uses of this API check the last part of the source of impress.js where the API
     is used in event handlers.
+    impress.js源代码的最后一部分有一些关于API用法的例子,主要讲述在事件里怎么使用这些API.
 
 -->
 
@@ -495,44 +507,62 @@ if ("ontouchstart" in document.documentElement) {
 
     Now you know more or less everything you need to build your first impress.js presentation, but before
     you start...
+    现在你知道你需要多少东西来制作你的第一个impress.js演示文稿了,但是在你开始制作之前...
 
     Oh, you've already cloned the code from GitHub?
+    啊,你已经从GitHub上clone了这份代码?
 
     You have it open in text editor?
+    你已经在编辑器里打开了它?
 
     Stop right there!
+    赶紧停止下来!
 
     That's not how you create awesome presentations. This is only a code. Implementation of the idea that
     first needs to grow in your mind.
+    这不是用来制作演示文稿的.这只是一份代码.把这种想法和做法扼杀在你的大脑里.
 
     So if you want to build great presentation take a pencil and piece of paper. And turn off the computer.
+    所以如果你想要制作一份帅气的演示文稿,那就拿起一支笔以及一些纸张.然后把电脑关了.
 
     Sketch, draw and write. Brainstorm your ideas on a paper. Try to build a mind-map of what you'd like
     to present. It will get you closer and closer to the layout you'll build later with impress.js.
+    先把你的想法写在纸上,画个草图.尝试把你想呈现的东西整理成一份思维导图.它会让你更清楚地明白最后你想通过
+    impress.js呈现什么东西.
 
     Get back to the code only when you have your presentation ready on a paper. It doesn't make sense to do
     it earlier, because you'll only waste your time fighting with positioning of useless points.
+    当你在纸上有了一个完整的想法之后你就可以回到代码里了.如果想法还没成熟,那你急着开始写代码也没用,因为你会浪费很
+    多时间在编码实现一些没用的东西上.
 
     If you think I'm crazy, please put your hands on a book called "Presentation Zen". It's all about
     creating awesome and engaging presentations.
+    如果你觉得我的想法很新颖很潮很牛逼很厉害,那你可以看一看一本叫做"Presentation Zen"(中文名是《演说之禅》)的
+    书.里面有非常多狂拽炫酷叼炸天又有趣的演示文稿.
 
     Think about it. 'Cause impress.js may not help you, if you have nothing interesting to say.
+    想想看.如果你没有精彩的演讲,impress.js再棒也没用,因为连神仙都帮不了你.
 
 -->
 
 <!--
 
     Are you still reading this?
+    你还在阅读这份东西吗?
 
     For real?
+    真的在看?
 
     I'm impressed! Feel free to let me know that you got that far (I'm @bartaz on Twitter), 'cause I'd like
     to congratulate you personally :)
+    我好感动!不管你有多远,随时联系我(我在Twitter上@bartaz),因为我想亲自向你表示祝贺 :)
 
     But you don't have to do it now. Take my advice and take some time off. Make yourself a cup of coffee, tea,
     or anything you like to drink. And raise a glass for me ;)
+    不过你不需要现在就这么做(就是上面说的联系他).带着我的建议然后休息一下.给自己泡一杯咖啡、茶或任何你喜欢喝的东
+    西.然后帮我也泡上一杯 ;)
 
     Cheers!
+    干杯!
 
 -->
-
