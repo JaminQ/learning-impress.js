@@ -3,6 +3,8 @@
  *
  * impress.js is a presentation tool based on the power of CSS3 transforms and transitions
  * in modern browsers and inspired by the idea behind prezi.com.
+ * impress.js是一款基于新式浏览器强大特性CSS3变形和过渡的演示文稿(渲染)工具,想法来自
+ * 于prezi.com.
  *
  *
  * Copyright 2011-2012 Bartek Szopka (@bartaz)
@@ -20,7 +22,10 @@
          noarg:true, noempty:true, undef:true, strict:true, browser:true */
 
 // You are one of those who like to know how things work inside?
+// 你是那群想要追根究底的人中的一个吧?
 // Let me show you the cogs that make impress.js run...
+// 那就让我给你演示到底这些齿轮是怎么让impress.js这个机器运转起来的...(吓屎宝宝了,原
+// 来老外也会用比喻句=_=)
 (function(document, window) {
     'use strict';
 
@@ -29,6 +34,7 @@
     // `pfx` is a function that takes a standard CSS property name as a parameter
     // and returns it's prefixed version valid for current browser it runs in.
     // The code is heavily inspired by Modernizr http://www.modernizr.com/
+    // `pfx`
     var pfx = (function() {
 
         var style = document.createElement('dummy').style,
@@ -169,7 +175,7 @@
 
     var ua = navigator.userAgent.toLowerCase();
     var impressSupported =
-        // browser should support CSS 3D transtorms 
+        // browser should support CSS 3D transtorms
         (pfx("perspective") !== null) &&
 
         // and `classList` and `dataset` APIs
@@ -267,7 +273,7 @@
         // STEP EVENTS
         //
         // There are currently two step events triggered by impress.js
-        // `impress:stepenter` is triggered when the step is shown on the 
+        // `impress:stepenter` is triggered when the step is shown on the
         // screen (the transition from the previous one is finished) and
         // `impress:stepleave` is triggered when the step is left (the
         // transition to next step just starts).
@@ -547,7 +553,7 @@
             //
             // I really wanted to make it in more elegant way. The `transitionend` event seemed to be the best way
             // to do it, but the fact that I'm using transitions on two separate elements and that the `transitionend`
-            // event is only triggered when there was a transition (change in the values) caused some bugs and 
+            // event is only triggered when there was a transition (change in the values) caused some bugs and
             // made the code really complicated, cause I had to handle all the conditions separately. And it still
             // needed a `setTimeout` fallback for the situations when there is no transition at all.
             // So I decided that I'd rather make the code simpler than use shiny new `transitionend`.
@@ -628,7 +634,7 @@
 
             window.addEventListener("hashchange", function() {
                 // When the step is entered hash in the location is updated
-                // (just few lines above from here), so the hash change is 
+                // (just few lines above from here), so the hash change is
                 // triggered and we would call `goto` again on the same element.
                 //
                 // To avoid this we store last entered hash and compare.
@@ -637,7 +643,7 @@
                 }
             }, false);
 
-            // START 
+            // START
             // by selecting step defined in url or first step of the presentation
             goto(getElementFromHash() || steps[0], 0);
         }, false);
@@ -688,7 +694,7 @@
     document.addEventListener("impress:init", function(event) {
         // Getting API from event data.
         // So you don't event need to know what is the id of the root element
-        // or anything. `impress:init` event data gives you everything you 
+        // or anything. `impress:init` event data gives you everything you
         // need to control the presentation that was just initialized.
         var api = event.detail.api;
 
