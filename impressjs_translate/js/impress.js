@@ -34,7 +34,8 @@
     // `pfx` is a function that takes a standard CSS property name as a parameter
     // and returns it's prefixed version valid for current browser it runs in.
     // The code is heavily inspired by Modernizr http://www.modernizr.com/
-    // `pfx`
+    // `pfx`是一个用来返回对应标准CSS属性(以参数形式传入)在当前运行的浏览器中的前缀的方法.
+    // 这段代码重度依赖Modernizr http://www.modernizr.com/
     var pfx = (function() {
 
         var style = document.createElement('dummy').style,
@@ -64,6 +65,8 @@
 
     // `arraify` takes an array-like object and turns it into real Array
     // to make all the Array.prototype goodness available.
+    // `arrayify`方法需传入一个类数组的对象,然后将它转换成一个真正的数组来调用
+    // Array.prototype上的方法.
     var arrayify = function(a) {
         return [].slice.call(a);
     };
@@ -71,6 +74,7 @@
     // `css` function applies the styles given in `props` object to the element
     // given as `el`. It runs all property names through `pfx` function to make
     // sure proper prefixed version of the property is used.
+    // `css`方法
     var css = function(el, props) {
         var key, pkey;
         for (key in props) {
@@ -87,17 +91,22 @@
     // `toNumber` takes a value given as `numeric` parameter and tries to turn
     // it into a number. If it is not possible it returns 0 (or other value
     // given as `fallback`).
+    // `toNumber`方法将`numeric`参数的值转化成数字,如果是非数字则转换成0或者是`fallback`
+    // 参数的值(如果有这个参数的话).
     var toNumber = function(numeric, fallback) {
         return isNaN(numeric) ? (fallback || 0) : Number(numeric);
     };
 
     // `byId` returns element with given `id` - you probably have guessed that ;)
+    // `byId`其实就是document.getElementById的一个简单封装.
     var byId = function(id) {
         return document.getElementById(id);
     };
 
     // `$` returns first element for given CSS `selector` in the `context` of
     // the given element or whole document.
+    // `$`方法根据`selector`参数在document或者`context`参数(如果有这个参数的话)给定的上
+    // 下文中查找元素,注意,该方法只返回首个匹配的元素.
     var $ = function(selector, context) {
         context = context || document;
         return context.querySelector(selector);
@@ -105,6 +114,7 @@
 
     // `$$` return an array of elements for given CSS `selector` in the `context` of
     // the given element or whole document.
+    // `$$`和`$`非常相似,唯一不同的是该方法返回所有匹配的元素.
     var $$ = function(selector, context) {
         context = context || document;
         return arrayify(context.querySelectorAll(selector));
@@ -112,6 +122,8 @@
 
     // `triggerEvent` builds a custom DOM event with given `eventName` and `detail` data
     // and triggers it on element given as `el`.
+    // `triggerEvent`方法根据`eventName`参数和`detail`参数来创建一个自定义DOM事件并绑定到`el`参数
+    // 指定的元素上.
     var triggerEvent = function(el, eventName, detail) {
         var event = document.createEvent("CustomEvent");
         event.initCustomEvent(eventName, true, true, detail);
@@ -119,6 +131,7 @@
     };
 
     // `translate` builds a translate transform string for given data.
+    // `translate`方法根据参数值拼接平移变形字符串(用于CSS样式).
     var translate = function(t) {
         return " translate3d(" + t.x + "px," + t.y + "px," + t.z + "px) ";
     };
@@ -126,6 +139,8 @@
     // `rotate` builds a rotate transform string for given data.
     // By default the rotations are in X Y Z order that can be reverted by passing `true`
     // as second parameter.
+    // `rotate`方法根据参数值拼接旋转变形字符串(用于CSS样式).
+    // 默认情况下是以X Y Z的顺序来旋转,但可以通过设置`revert`参数值为`true`来更改旋转方向为Z Y X.
     var rotate = function(r, revert) {
         var rX = " rotateX(" + r.x + "deg) ",
             rY = " rotateY(" + r.y + "deg) ",
@@ -135,25 +150,33 @@
     };
 
     // `scale` builds a scale transform string for given data.
+    // `scale`方法根据参数值拼接缩放变形字符串(用于CSS样式).
     var scale = function(s) {
         return " scale(" + s + ") ";
     };
 
     // `perspective` builds a perspective transform string for given data.
+    // `perspective`方法根据参数值拼接视角变形字符串(用于CSS样式).
     var perspective = function(p) {
         return " perspective(" + p + "px) ";
     };
 
     // `getElementFromHash` returns an element located by id from hash part of
     // window location.
+    // `getElementFromHash`方法根据写在URL的锚部分(hash part,也就是URL上从#号开始的部
+    // 分)上的id来得到匹配的元素并返回.
     var getElementFromHash = function() {
         // get id from url # by removing `#` or `#/` from the beginning,
         // so both "fallback" `#slide-id` and "enhanced" `#/slide-id` will work
+        // 将URL上锚部分开头的`#`或`#/`删除掉,所以无论是"回退版"(用于兼容)的`#slide-id`
+        // 还是"增强版"(新式浏览器支持的)的`#/slide-id`都能正常工作.
         return byId(window.location.hash.replace(/^#\/?/, ""));
     };
 
     // `computeWindowScale` counts the scale factor between window size and size
     // defined for the presentation in the config.
+    // `computeWindowScale`方法根据浏览器窗口大小以及config值里定义的演示文稿尺寸值来计算
+    // 缩放系数.
     var computeWindowScale = function(config) {
         var hScale = window.innerHeight / config.height,
             wScale = window.innerWidth / config.width,
