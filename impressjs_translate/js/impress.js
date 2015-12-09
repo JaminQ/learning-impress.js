@@ -194,24 +194,30 @@
     };
 
     // CHECK SUPPORT
+    // 检测浏览器支持情况
     var body = document.body;
 
     var ua = navigator.userAgent.toLowerCase();
     var impressSupported =
         // browser should support CSS 3D transtorms
+        // 浏览器需支持CSS 3D 变形
         (pfx("perspective") !== null) &&
 
         // and `classList` and `dataset` APIs
+        // 以及`classList`和`dataset`APIs
         (body.classList) &&
         (body.dataset) &&
 
         // but some mobile devices need to be blacklisted,
         // because their CSS 3D support or hardware is not
         // good enough to run impress.js properly, sorry...
+        // 但是一些移动设备需要被列入黑名单,因为它们的CSS 3D支持情况
+        // 或者硬件支持都不太好,运行impress.js可能会非常吃力,抱歉...
         (ua.search(/(iphone)|(ipod)|(android)/) === -1);
 
     if (!impressSupported) {
         // we can't be sure that `classList` is supported
+        // 我们不能保证`classList`是否被支持.(所以才用className)
         body.className += " impress-not-supported ";
     } else {
         body.classList.remove("impress-not-supported");
@@ -219,13 +225,18 @@
     }
 
     // GLOBALS AND DEFAULTS
+    // 全局变量和默认值
 
     // This is where the root elements of all impress.js instances will be kept.
     // Yes, this means you can have more than one instance on a page, but I'm not
     // sure if it makes any sense in practice ;)
+    // 这是用于保存所有impress.js实例根元素的变量.
+    // 是的,这意味着你在一个页面上可以拥有不止一个实例(也就是不止一个演示文稿),但我不确定这是否
+    // 有任何实际意义 ;)
     var roots = {};
 
     // some default config values.
+    // 一些默认值.
     var defaults = {
         width: 1024,
         height: 768,
@@ -238,6 +249,7 @@
     };
 
     // it's just an empty function ... and a useless comment.
+    // 只是一个空的方法...以及一条无用的注释.(这老外还真够幽默的=_=)
     var empty = function() {
         return false;
     };
@@ -248,11 +260,17 @@
     // It's the core `impress` function that returns the impress.js API
     // for a presentation based on the element with given id ('impress'
     // by default).
+    // 这里就是有趣的事情开发发生的地方了.(现在,就是见证奇迹的时刻!)
+    // `impress`方法是最核心的方法,它返回一个impress.js的API,该API对应一个基于
+    // 具有给定id(默认是'impress')元素的演示文稿.
     var impress = window.impress = function(rootId) {
 
         // If impress.js is not supported by the browser return a dummy API
         // it may not be a perfect solution but we return early and avoid
         // running code that may use features not implemented in the browser.
+        // 如果浏览器不支持impress.js将会返回一个dummy(假的)API.
+        // 这可能不是一个完美的解决方案,但是我们早一些返回它有助于避免运行那些浏览器不支持
+        // 的代码.
         if (!impressSupported) {
             return {
                 init: empty,
@@ -265,48 +283,65 @@
         rootId = rootId || "impress";
 
         // if given root is already initialized just return the API
+        // 如果给定的根(其实就是演示文稿的最外层元素的id号)已经初始化了就直接
+        // 返回对应的API
         if (roots["impress-root-" + rootId]) {
             return roots["impress-root-" + rootId];
         }
 
         // data of all presentation steps
+        // 用于保存演示文稿里所有幻灯片的数据
         var stepsData = {};
 
         // element of currently active step
+        // 用于保存当前播放的幻灯片的元素
         var activeStep = null;
 
         // current state (position, rotation and scale) of the presentation
+        // 用于保存演示文稿的实时状态(包括位置,旋转情况以及缩放情况)
         var currentState = null;
 
         // array of step elements
+        // 用于保存幻灯片元素的数组
         var steps = null;
 
         // configuration options
+        // 配置选项
         var config = null;
 
         // scale factor of the browser window
+        // 浏览器窗口的缩放系数
         var windowScale = null;
 
         // root presentation elements
+        // 演示文稿的根元素
         var root = byId(rootId);
         var canvas = document.createElement("div");
 
         var initialized = false;
 
         // STEP EVENTS
-        //
+        // 幻灯片事件
+
         // There are currently two step events triggered by impress.js
         // `impress:stepenter` is triggered when the step is shown on the
         // screen (the transition from the previous one is finished) and
         // `impress:stepleave` is triggered when the step is left (the
         // transition to next step just starts).
+        // 目前impress.js已经绑定了两个幻灯片事件.
+        // `impress:stepenter`事件当幻灯片开始在屏幕上播放时(上一个过渡结束时)会
+        // 被触发,`impress:stepleave`事件当幻灯片离开屏幕时(下一个过渡开始时)会被
+        // 触发.
 
         // reference to last entered step
+        // 一个引用,引用的是上一张播放的幻灯片.
         var lastEntered = null;
 
         // `onStepEnter` is called whenever the step element is entered
         // but the event is triggered only if the step is different than
         // last entered step.
+        // `onStepEnter`事件当幻灯片元素进入时就会被触发,但是仅仅在当前进入的幻灯片
+        // 不是上一张幻灯片时才会触发.
         var onStepEnter = function(step) {
             if (lastEntered !== step) {
                 triggerEvent(step, "impress:stepenter");
@@ -317,6 +352,8 @@
         // `onStepLeave` is called whenever the step element is left
         // but the event is triggered only if the step is the same as
         // last entered step.
+        // `onStepLeave`事件当幻灯片元素离开时就会被触发,但是仅仅在当前离开的幻
+        // 灯片是上一张幻灯片时才会触发.
         var onStepLeave = function(step) {
             if (lastEntered === step) {
                 triggerEvent(step, "impress:stepleave");
