@@ -3,17 +3,20 @@ impress.js
 
 It's a presentation framework based on the power of CSS3 transforms and
 transitions in modern browsers and inspired by the idea behind prezi.com.
+
 这是一款基于新式浏览器强大特性CSS3变形和过渡的演示文稿(渲染)框架,想法来自于prezi.com.
 
 **WARNING**
+
 **注意**
 
 impress.js may not help you if you have nothing interesting to say ;)
+
 如果你没有新奇的东西要表达的话,impress.js可能帮不了你 ;)
 
 
 HOW TO USE IT
----------------
+
 如何使用它
 ---------------
 
