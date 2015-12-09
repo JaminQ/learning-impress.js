@@ -74,7 +74,8 @@
     // `css` function applies the styles given in `props` object to the element
     // given as `el`. It runs all property names through `pfx` function to make
     // sure proper prefixed version of the property is used.
-    // `css`方法
+    // `css`方法将`props`对象里的所有样式应用到`el`元素里.它将每一个属性名都运行一次`pfx`
+    // 方法以确保使用正确的前缀.
     var css = function(el, props) {
         var key, pkey;
         for (key in props) {
@@ -363,6 +364,8 @@
 
         // `initStep` initializes given step element by reading data from its
         // data attributes and setting correct styles.
+        // `initStep`方法根据给定的幻灯片元素以及通过它的data属性读取它的数据来初始化幻
+        // 灯片并设置对应的样式.
         var initStep = function(el, idx) {
             var data = el.dataset,
                 step = {
@@ -397,6 +400,7 @@
         };
 
         // `init` API function that initializes (and runs) the presentation.
+        // `init` API 方法用于初始化(以及运行)整个演示文稿.
         var init = function() {
             if (initialized) {
                 return;
@@ -404,6 +408,8 @@
 
             // First we set up the viewport for mobile devices.
             // For some reason iPad goes nuts when it is not done properly.
+            // 首先我们设置一下移动设备上的视图(viewport).
+            // 由于某种原因,当设置得不恰当的时候在iPad上会出现问题.
             var meta = $("meta[name='viewport']") || document.createElement("meta");
             meta.content = "width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no";
             if (meta.parentNode !== document.head) {
@@ -412,6 +418,7 @@
             }
 
             // initialize configuration object
+            // 初始化配置选项对象
             var rootData = root.dataset;
             config = {
                 width: toNumber(rootData.width, defaults.width),
@@ -425,12 +432,15 @@
             windowScale = computeWindowScale(config);
 
             // wrap steps with "canvas" element
+            // 用"canvas"元素(实际上不是canvas标签,而是一个普通的div标签而已)将所有
+            // 的幻灯片包裹起来
             arrayify(root.childNodes).forEach(function(el) {
                 canvas.appendChild(el);
             });
             root.appendChild(canvas);
 
             // set initial styles
+            // 设置初始样式
             document.documentElement.style.height = "100%";
 
             css(body, {
