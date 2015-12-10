@@ -467,10 +467,13 @@
             body.classList.add("impress-enabled");
 
             // get and init steps
+            // 获取并初始化幻灯片
             steps = $$(".step", root);
             steps.forEach(initStep);
 
             // set a default initial state of the canvas
+            // 给canvas(就是那个canvas变量,一个div标签)设置默
+            // 认的初始化状态
             currentState = {
                 translate: {
                     x: 0,
@@ -496,6 +499,9 @@
         // If a number is given, step with index given by the number is returned, if a string
         // is given step element with such id is returned, if DOM element is given it is returned
         // if it is a correct step element.
+        // `getStep`是一个工具方法,它根据所给的参数返回对应的幻灯片元素.
+        // 如果给的参数是一个数字,那么将会返回对应索引的幻灯片元素,如果给的参数是一个字符串,那么将会返回对应id的
+        // 幻灯片元素,如果给的参数是一个正确的DOM元素,那么将会直接返回这个元素(会检测是不是幻灯片元素的).
         var getStep = function(step) {
             if (typeof step === "number") {
                 step = step < 0 ? steps[steps.length + step] : steps[step];
@@ -506,25 +512,34 @@
         };
 
         // used to reset timeout for `impress:stepenter` event
+        // 用于重置`impress:stepenter`事件的超时时间
         var stepEnterTimeout = null;
 
         // `goto` API function that moves to step given with `el` parameter (by index, id or element),
         // with a transition `duration` optionally given as second parameter.
+        // `goto`API方法根据`el`参数(可以是幻灯片的索引,id号或者幻灯片元素)跳转到对应的幻灯片,并且可以通过传一个
+        // 可选参数`duration`(作为第二参数)来设置切换幻灯片的过渡时间.
         var goto = function(el, duration) {
 
             if (!initialized || !(el = getStep(el))) {
                 // presentation not initialized or given element is not a step
+                // 演示文稿未初始化或所给的元素不是幻灯片时返回失败
                 return false;
             }
 
             // Sometimes it's possible to trigger focus on first link with some keyboard action.
             // Browser in such a case tries to scroll the page to make this element visible
             // (even that body overflow is set to hidden) and it breaks our careful positioning.
+            // 有时候可能会因为一些键盘的动作而触发第一个链接的focus事件.
+            // 浏览器在这种情况下会尽可能地滚动页面来让这个元素(就是那个链接)可见(就算body标签的overflow属性
+            // 已经设置为hidden)并且破坏我们一直小心对待的定位.
             //
             // So, as a lousy (and lazy) workaround we will make the page scroll back to the top
             // whenever slide is selected
+            // 所以,一种比较糟糕(而且懒)的做法是不管什么时候选中一张幻灯片时都将页面滚动到顶部
             //
             // If you are reading this and know any better way to handle it, I'll be glad to hear about it!
+            // 如果你看到这里之后有更好的解决方法,请告诉我,我非常乐意聆听!
             window.scrollTo(0, 0);
 
             var step = stepsData["impress-" + el.id];
@@ -538,6 +553,7 @@
             body.classList.add("impress-on-" + el.id);
 
             // compute target state of the canvas based on given step
+            // 根据给定的幻灯片计算canvas的实时状态(目标状态)
             var target = {
                 rotate: {
                     x: -step.rotate.x,
@@ -553,11 +569,15 @@
             };
 
             // Check if the transition is zooming in or not.
+            // 检测接下来的幻灯片切换效果是放大还是缩小.
             //
             // This information is used to alter the transition style:
             // when we are zooming in - we start with move and rotate transition
             // and the scaling is delayed, but when we are zooming out we start
             // with scaling down and move and rotation are delayed.
+            // 这个信息(zoomin)用来修改过渡的样式:
+            // 当过渡效果是放大时 - 我们先进行移动和旋转然后才进行放大,但当过渡效果是缩小时,
+            // 我们先进行缩小和移动然后才进行旋转.
             var zoomin = target.scale >= currentState.scale;
 
             duration = toNumber(duration, config.transitionDuration);
@@ -565,6 +585,9 @@
 
             // if the same step is re-selected, force computing window scaling,
             // because it is likely to be caused by window resize
+            // 如果选中的是当前的幻灯片,则强制执行`computeWindowScale`方法重新计算一次
+            // 缩放系数,因为这有可能是因为调整窗口大小而导致的(导致goto到同一张幻灯片这个
+            // 行为发生)
             if (el === activeStep) {
                 windowScale = computeWindowScale(config);
             }
@@ -572,11 +595,13 @@
             var targetScale = target.scale * windowScale;
 
             // trigger leave of currently active element (if it's not the same step again)
+            // 触发当前播放的幻灯片的离开事件(当前播放的幻灯片不是目标幻灯片时才会触发)
             if (activeStep && activeStep !== el) {
                 onStepLeave(activeStep);
             }
 
             // Now we alter transforms of `root` and `canvas` to trigger transitions.
+            // 现在我们来修改`root`和`canvas`的变形来触发过渡效果.
             //
             // And here is why there are two elements: `root` and `canvas` - they are
             // being animated separately:
@@ -584,9 +609,14 @@
             // Transitions on them are triggered with different delays (to make
             // visually nice and 'natural' looking transitions), so we need to know
             // that both of them are finished.
+            // 这里就是为什么会有两个元素: `root`和`canvas`的原因 - 它们的动画是分开进行的:
+            // `root`是用于缩放,而`canvas`是用于平移和旋转的.它们的过渡效果是在不同的延迟(时间)
+            // 上触发的(为了让过渡效果在视觉上更有冲击力和更自然),所以我们需要知道它们是怎么运作的.
             css(root, {
                 // to keep the perspective look similar for different scales
                 // we need to 'scale' the perspective, too
+                // 为了保持视角在各个缩放比下看起来都差不多
+                // 我们需要对这个视角(perspective)也进行'缩放(scale)'
                 transform: perspective(config.perspective / targetScale) + scale(targetScale),
                 transitionDuration: duration + "ms",
                 transitionDelay: (zoomin ? delay : 0) + "ms"
@@ -599,14 +629,21 @@
             });
 
             // Here is a tricky part...
+            // 这里开始是一个非常棘手的部分了...
             //
             // If there is no change in scale or no change in rotation and translation, it means there was actually
             // no delay - because there was no transition on `root` or `canvas` elements.
             // We want to trigger `impress:stepenter` event in the correct moment, so here we compare the current
             // and target values to check if delay should be taken into account.
+            // 如果没有任何的缩放变化或没有任何的旋转和平移变化,那么意味着实际上没有任何的延迟 - 因
+            // 为在`root`或`canvas`元素上没有任何的过渡效果.
+            // 我们想要在一个正确的时间触发`impress:stepenter`事件,所以在这里我们比较当前状态
+            // (current)和目标状态(target)的值来检测是否应该进行延迟.
             //
             // I know that this `if` statement looks scary, but it's pretty simple when you know what is going on
             // - it's simply comparing all the values.
+            // 我知道,`if`语句看起来非常吓人,但当你清楚它是怎么运作的时候你会发现它是那么的简单 - 简
+            // 单到仅仅只是将所有值进行了一次比较.(风趣的老外=_=)
             if (currentState.scale === target.scale ||
                 (currentState.rotate.x === target.rotate.x && currentState.rotate.y === target.rotate.y &&
                     currentState.rotate.z === target.rotate.z && currentState.translate.x === target.translate.x &&
@@ -615,11 +652,14 @@
             }
 
             // store current state
+            // 保存当前状态
             currentState = target;
             activeStep = el;
 
             // And here is where we trigger `impress:stepenter` event.
             // We simply set up a timeout to fire it taking transition duration (and possible delay) into account.
+            // 这里开始我们就要触发`impress:stepenter`事件了.
+            // 我们简单地设置一个超时时间来执行它,同时把过渡时间(以及可能的延迟)也考虑在内.
             //
             // I really wanted to make it in more elegant way. The `transitionend` event seemed to be the best way
             // to do it, but the fact that I'm using transitions on two separate elements and that the `transitionend`
@@ -627,9 +667,16 @@
             // made the code really complicated, cause I had to handle all the conditions separately. And it still
             // needed a `setTimeout` fallback for the situations when there is no transition at all.
             // So I decided that I'd rather make the code simpler than use shiny new `transitionend`.
+            // 我是真的很想让它变得更优雅.`transitionend`事件貌似是最好的解决方案了,但事实上我在
+            // 两个单独的元素上都使用了过渡,而`transitionend`事件仅在只有一个过渡(并且值还要修改
+            // 了)的情况下才能被触发,所以在实际情况下会造成一些bug并且让代码变得复杂,因而我还需要单
+            // 独处理所有的可能情况.它还需要一个`setTimeout`回调函数来处理没有任何过渡的情况.
+            // 所以我决定,我宁愿让代码更简单,也不愿用闪亮的新的'transitionend`.
             //
             // If you want learn something interesting and see how it was done with `transitionend` go back to
             // version 0.5.2 of impress.js: http://github.com/bartaz/impress.js/blob/0.5.2/js/impress.js
+            // 如果你想要学习一些有趣的东西并且好奇到底使用`transitionend`时是怎么工作的,你可以回
+            // 到impress.js的旧版本0.5.2去看看:http://github.com/bartaz/impress.js/blob/0.5.2/js/impress.js
             window.clearTimeout(stepEnterTimeout);
             stepEnterTimeout = window.setTimeout(function() {
                 onStepEnter(activeStep);
@@ -639,6 +686,7 @@
         };
 
         // `prev` API function goes to previous step (in document order)
+        // `prev` API 方法可以跳转到上一张幻灯片(按照演示文稿的顺序)
         var prev = function() {
             var prev = steps.indexOf(activeStep) - 1;
             prev = prev >= 0 ? steps[prev] : steps[steps.length - 1];
@@ -647,6 +695,7 @@
         };
 
         // `next` API function goes to next step (in document order)
+        // `next` API 方法可以跳转到下一张幻灯片(按照演示文稿的顺序)
         var next = function() {
             var next = steps.indexOf(activeStep) + 1;
             next = next < steps.length ? steps[next] : steps[0];
@@ -655,20 +704,30 @@
         };
 
         // Adding some useful classes to step elements.
+        // 增加一些有用的类到幻灯片元素里.
         //
         // All the steps that have not been shown yet are given `future` class.
         // When the step is entered the `future` class is removed and the `present`
         // class is given. When the step is left `present` class is replaced with
         // `past` class.
+        // 所有的未播放幻灯片元素都会被赋予`future`类.
+        // 当幻灯片播放时`future`类会被`present`类代替.当幻灯片离开时`present`类会被
+        // `past`类代替.
         //
         // So every step element is always in one of three possible states:
         // `future`, `present` and `past`.
+        // 所以每一张幻灯片肯定拥有以下三种可能状态的其一:
+        // `future`, `present` 以及 `past`.
         //
         // There classes can be used in CSS to style different types of steps.
         // For example the `present` class can be used to trigger some custom
         // animations when step is shown.
+        // (怀疑作者写了错别字,应该是these而不是there)这些类可以通过CSS添加样式到幻灯片中.
+        // 举个例子,可以通过`present`类添加一些自定义动画(通过CSS3 animation),当幻灯片播
+        // 放时就会播放这些动画.
         root.addEventListener("impress:init", function() {
             // STEP CLASSES
+            // 幻灯片的类
             steps.forEach(function(step) {
                 step.classList.add("future");
             });
@@ -687,16 +746,23 @@
         }, false);
 
         // Adding hash change support.
+        // 增加对锚值(hash)改变的情况的支持.
         root.addEventListener("impress:init", function() {
 
             // last hash detected
+            // 检测(其实我觉得更应该用store,也就是保存)上一个进入的幻灯片元素的锚
+            // 值(hash)
             var lastHash = "";
 
             // `#/step-id` is used instead of `#step-id` to prevent default browser
             // scrolling to element in hash.
+            // 使用`#/step-id`来代替`#step-id`可以有效阻止浏览器的默认行为 -- 滚动到拥有对应
+            // 锚的元素处.
             //
             // And it has to be set after animation finishes, because in Chrome it
             // makes transtion laggy.
+            // 而且它必须在动画结束后才能被设置,因为在Chrome浏览器里它会导致过渡变得卡卡的.(怀疑
+            // 作者又写了个错别字,应该是transition而不是transtion)
             // BUG: http://code.google.com/p/chromium/issues/detail?id=62820
             root.addEventListener("impress:stepenter", function(event) {
                 window.location.hash = lastHash = "#/" + event.target.id;
@@ -706,8 +772,13 @@
                 // When the step is entered hash in the location is updated
                 // (just few lines above from here), so the hash change is
                 // triggered and we would call `goto` again on the same element.
+                // 当幻灯片播放时URL上的hash就会被更新(就发生在上面的几行代码里),所以
+                // `hasnchange`事件就会被触发并且会再次执行`goto`方法跳转到同一个幻
+                // 灯片元素.
                 //
                 // To avoid this we store last entered hash and compare.
+                // 为了避免发生这样的事情,我们保存了上一个进入的幻灯片元素的锚值(hash)
+                // 并且进行比较.
                 if (window.location.hash !== lastHash) {
                     goto(getElementFromHash());
                 }
@@ -715,12 +786,14 @@
 
             // START
             // by selecting step defined in url or first step of the presentation
+            // 从在URL上查找出的已定义的幻灯片或演示文稿的第一张幻灯片开始
             goto(getElementFromHash() || steps[0], 0);
         }, false);
 
         body.classList.add("impress-disabled");
 
         // store and return API for given impress.js root element
+        // 保存并返回给定的impress.js根元素的API
         return (roots["impress-root-" + rootId] = {
             init: init,
             goto: goto,
@@ -731,18 +804,23 @@
     };
 
     // flag that can be used in JS to check if browser have passed the support test
+    // 如果浏览器通过了兼容性测试就做个标记,代表JS都能正常运行
     impress.supported = impressSupported;
 
 })(document, window);
 
 // NAVIGATION EVENTS
+// 导航事件
 
 // As you can see this part is separate from the impress.js core code.
 // It's because these navigation actions only need what impress.js provides with
 // its simple API.
+// 正如你所见,这一部分和impress.js核心代码是完全独立开来的.
+// 因为这些导航动作仅仅需要impress.js提供API支持.
 //
 // In future I think about moving it to make them optional, move to separate files
 // and treat more like a 'plugins'.
+// 我在考虑以后将这部分变成可选的,并且移到一个单独的文件里,让它表现得更像一个'插件'.
 (function(document, window) {
     'use strict';
 
