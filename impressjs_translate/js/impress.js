@@ -810,13 +810,13 @@
 })(document, window);
 
 // NAVIGATION EVENTS
-// 导航事件
+// 导览事件
 
 // As you can see this part is separate from the impress.js core code.
 // It's because these navigation actions only need what impress.js provides with
 // its simple API.
 // 正如你所见,这一部分和impress.js核心代码是完全独立开来的.
-// 因为这些导航动作仅仅需要impress.js提供API支持.
+// 因为这些导览操作仅仅需要impress.js提供API支持.
 //
 // In future I think about moving it to make them optional, move to separate files
 // and treat more like a 'plugins'.
@@ -839,16 +839,23 @@
     };
 
     // wait for impress.js to be initialized
+    // 在impress.js初始化时会运行以下代码
     document.addEventListener("impress:init", function(event) {
         // Getting API from event data.
         // So you don't event need to know what is the id of the root element
         // or anything. `impress:init` event data gives you everything you
         // need to control the presentation that was just initialized.
+        // 从event对象里获取API
+        // 所以你甚至不需要知道根元素的id号或者什么其它东西(貌似作者又冒出了一个错别字,是
+        // even而不是event).`impress:init`事件对象会给你一切你需要用来控制当前被初始化
+        // 的演示文稿的东西.
         var api = event.detail.api;
 
         // KEYBOARD NAVIGATION HANDLERS
+        // 键盘导览事件
 
         // Prevent default keydown action when one of supported key is pressed.
+        // 当其中一个被支持的有特定功能的键按下时阻止浏览器的默认行为.
         document.addEventListener("keydown", function(event) {
             if (event.keyCode === 9 || (event.keyCode >= 32 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40)) {
                 event.preventDefault();
@@ -856,6 +863,7 @@
         }, false);
 
         // Trigger impress action (next or prev) on keyup.
+        // 绑定impress操作(next或prev)到keyup事件上.
 
         // Supported keys are:
         // [space] - quite common in presentation software to move forward
@@ -870,17 +878,29 @@
         //   positioning. I didn't want to just prevent this default action, so I used [tab]
         //   as another way to moving to next step... And yes, I know that for the sake of
         //   consistency I should add [shift+tab] as opposite action...
+        // 支持的按键有:
+        // [space] - 在演示文稿软件(比如PPT,Keynote那些)里面十分常见,表示跳转到下一页
+        // [up] [right] / [down] [left] - 再普通不过的箭头了,
+        // [pgdown] / [pgup] - 一些有年代感的遥控器经常用到这两个键,
+        // [tab] - 这个按键是比较有争议性的,但它能出现在这个列表里,在背后是有一个相当有趣
+        //   的故事的...还记得在impress.js的代码里有一个奇怪的部分吗?在那里,每切换到一张
+        //   幻灯片时都需要将页面滚动到最顶端,因为浏览器有时候会滚动到一些获得焦点的元素的
+        //   可视区域.好吧,[tab]键默认就可以在那些可设定焦点的元素之间切换,所以经常点击它
+        //   们会导致页面不断滚动到那些获得焦点的元素的位置而破坏了impress.js的定位.我不
+        //   想仅仅只是阻止这个默认行为,所以我将[tab]键作为另一种切换到下一张幻灯片的途径...
+        //   是的,我知道,为了满足一致性,我应该添加[shift+tab]作为它的相反的操作(也就是切
+        //   换到上一张幻灯片)...(那为毛不加?是因为作者懒吗?=_=)
         document.addEventListener("keyup", function(event) {
             if (event.keyCode === 9 || (event.keyCode >= 32 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40)) {
                 switch (event.keyCode) {
-                    case 33: // pg up
+                    case 33: // pgup
                     case 37: // left
                     case 38: // up
                         api.prev();
                         break;
                     case 9: // tab
                     case 32: // space
-                    case 34: // pg down
+                    case 34: // pgdown
                     case 39: // right
                     case 40: // down
                         api.next();
@@ -892,9 +912,12 @@
         }, false);
 
         // delegated handler for clicking on the links to presentation steps
+        // 为指向演示文稿幻灯片的链接的点击事件设置一个事件代理处理程序
         document.addEventListener("click", function(event) {
             // event delegation with "bubbling"
             // check if event target (or any of its parents is a link)
+            // 通过"bubbling"(冒泡)实现事件代理
+            // 检查是否是事件对象(或者是它的父元素的任意一个链接)
             var target = event.target;
             while ((target.tagName !== "A") &&
                 (target !== document.documentElement)) {
@@ -905,6 +928,7 @@
                 var href = target.getAttribute("href");
 
                 // if it's a link to presentation step, target this step
+                // 如果它是一个指向演示文稿幻灯片的链接,则直接将该幻灯片设置为目标
                 if (href && href[0] === '#') {
                     target = document.getElementById(href.slice(1));
                 }
@@ -917,9 +941,11 @@
         }, false);
 
         // delegated handler for clicking on step elements
+        // 为幻灯片元素的点击事件设置一个事件代理处理程序
         document.addEventListener("click", function(event) {
             var target = event.target;
             // find closest step element that is not active
+            // 找到最近的一个没有在播放的幻灯片元素
             while (!(target.classList.contains("step") && !target.classList.contains("active")) &&
                 (target !== document.documentElement)) {
                 target = target.parentNode;
@@ -932,6 +958,8 @@
 
         // touch handler to detect taps on the left and right side of the screen
         // based on awesome work of @hakimel: https://github.com/hakimel/reveal.js
+        // 为在屏幕左侧以及右侧触屏单击操作设置一个事件代理处理程序
+        // 基于@hakimel的一个好作品: https://github.com/hakimel/reveal.js
         document.addEventListener("touchstart", function(event) {
             if (event.touches.length === 1) {
                 var x = event.touches[0].clientX,
@@ -951,8 +979,10 @@
         }, false);
 
         // rescale presentation when window is resized
+        // 当窗口大小改变了就重新缩放演示文稿
         window.addEventListener("resize", throttle(function() {
             // force going to active step again, to trigger rescaling
+            // 为了重新缩放,强制再次跳转到当前播放的幻灯片
             api.goto(document.querySelector(".step.active"), 500);
         }, 250), false);
 
@@ -961,9 +991,14 @@
 })(document, window);
 
 // THAT'S ALL FOLKS!
+// 这是本文的最后了!
 //
 // Thanks for reading it all.
 // Or thanks for scrolling down and reading the last part.
+// 感谢你阅读完全文.
+// 或者感谢你滚动到底部然后看到最后这一部分.(=_=)
 //
 // I've learnt a lot when building impress.js and I hope this code and comments
 // will help somebody learn at least some part of it.
+// 在我编写impress.js的时候我真的学到了非常多,希望这些代码以及注释能够帮助到别人,即使是只学
+// 了其中一部分.
