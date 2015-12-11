@@ -1,31 +1,44 @@
 /*
     So you like the style of impress.js demo?
     Or maybe you are just curious how it was done?
+    所以你是喜欢impress.js demo的样式吗?
+    或者你只是好奇到底这是怎么实现的?
 
     You couldn't find a better place to find out!
+    你可以在这里找到你想要的一切!
 
     Welcome to the stylesheet impress.js demo presentation.
+    欢迎来到impress.js demo演示文稿的样式表.
 
     Please remember that it is not meant to be a part of impress.js and is
     not required by impress.js.
     I expect that anyone creating a presentation for impress.js would create
     their own set of styles.
+    请记住这不意味着它是impress.js的一部分并且它不是impress.js必须的.
+    我非常希望每一个用impress.js做演示文稿的人都能编写属于他们自己的样式.
 
     But feel free to read through it and learn how to get the most of what
     impress.js provides.
+    放开心思阅读这份样式表并且了解一下到底impress.js可以提供什么最大帮助.
 
     And let me be your guide.
+    好了,现在就让我来当你的导游吧.
 
     Shall we begin?
+    准备好了吗?
 */
 
 
 /*
     We start with a good ol' reset.
     That's the one by Eric Meyer http://meyerweb.com/eric/tools/css/reset/
+    我们从网上一段非常棒的全局reset代码开始吧.
+    这是出自Eric Meyer之手的代码 http://meyerweb.com/eric/tools/css/reset/
 
     You can probably argue if it is needed here, or not, but for sure it
     doesn't do any harm and gives us a fresh start.
+    你可以对这段代码存在的合理性提出质疑,但请记住,这段代码的存在与否并无伤大雅,它仅仅
+    只是给我们提供了一个非常清新的开端而已.
 */
 
 html, body, div, span, applet, object, iframe,
@@ -76,10 +89,13 @@ table {
 
 /*
     Now here is when interesting things start to appear.
+    这里是所有有趣的事情开始发生的地方.
 
     We set up <body> styles with default font and nice gradient in the background.
     And yes, there is a lot of repetition there because of -prefixes but we don't
     want to leave anybody behind.
+    我们在<body>上设置一些默认的字体样式以及一个不错的渐变背景.嗯,为了兼容大部分支持渐变的浏览器,
+    我们使用了加样式前缀的写法,所以在这里有一些重复代码.
 */
 body {
     font-family: 'PT Sans', sans-serif;
@@ -96,12 +112,14 @@ body {
 
 /*
     Now let's bring some text styles back ...
+    现在让一些文本样式回归 ... (由于上面的全局reset,这些样式被"清除"了,所以说回归)
 */
 b, strong { font-weight: bold }
 i, em { font-style: italic }
 
 /*
     ... and give links a nice look.
+    ... 然后给链接换一个好看的新装.
 */
 a {
     color: inherit;
@@ -128,12 +146,17 @@ a:focus {
     Because the main point behind the impress.js demo is to demo impress.js
     we display a fallback message for users with browsers that don't support
     all the features required by it.
+    因为这个impress.js demo的背后核心依旧是impress.js,所以我们要展示一个回退消息给那些
+    还在使用不支持impress.js所需要的新特性的用户(告诉他们不兼容).
 
     All of the content will be still fully accessible for them, but I want
     them to know that they are missing something - that's what the demo is
     about, isn't it?
+    (尽管如此,)演示文稿的所有内容还是向他们开放的(也就是他们可以阅读),但是我想让他们知道
+    其实他们错过了一些精彩的东西 - 这不正正就是这个demo想说的吗?
 
     And then we hide the message, when support is detected in the browser.
+    当检测到浏览器支持情况良好时则隐藏这段消息.
 */
 
 .fallback-message {
@@ -159,8 +182,10 @@ a:focus {
 
 /*
     Now let's style the presentation steps.
+    现在让我们给演示文稿的幻灯片添加样式吧.
 
     We start with basics to make sure it displays correctly in everywhere ...
+    我们先设置一些基础样式以确保所有幻灯片不管在哪里显示都表现得正常 ...
 */
 
 .step {
@@ -182,8 +207,10 @@ a:focus {
 
 /*
     ... and we enhance the styles for impress.js.
+    ... 然后我们为支持impress.js的幻灯片做一些样式增强.
 
     Basically we remove the margin and make inactive steps a little bit transparent.
+    首先我们将margin(外边距)移除并且让那些没有在播放的幻灯片变得有一点透明.
 */
 .impress-enabled .step {
     margin: 0;
@@ -201,10 +228,13 @@ a:focus {
 /*
     These 'slide' step styles were heavily inspired by HTML5 Slides:
     http://html5slides.googlecode.com/svn/trunk/styles.css
+    这些'slide'(带有'slide'类的)幻灯片的样式重度依赖于HTML5 Slides:
+    http://html5slides.googlecode.com/svn/trunk/styles.css
 
     ;)
 
     They cover everything what you see on first three steps of the demo.
+    你在这个demo的头三张幻灯片里看到的一切样式都是由这些代码控制的.
 */
 .slide {
     display: block;
