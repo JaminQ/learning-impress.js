@@ -271,13 +271,19 @@ a:focus {
 
 /*
     And now we start to style each step separately.
+    现在开始我们针对每张幻灯片单独设置样式.
 
     I agree that this may be not the most efficient, object-oriented and
     scalable way of styling, but most of steps have quite a custom look
     and typography tricks here and there, so they had to be styled separately.
+    我也觉得这可能不是效率最高的做法,应该要运用面向对象思想和可扩展样式的编码方式才对,
+    但这个demo里的大多数幻灯片在各个细节都有很多自定义外观和排版技巧,所以我才把它们单
+    独开来设置样式.
 
     First is the title step with a big <h1> (no room for padding) and some
     3D positioning along Z axis.
+    首先是一张小小的幻灯片,里面有一个非常大的<h1>(没有任何空间给内边距,其实就是说padding
+    为0)和一些在Z轴上3D定位的文字.
 */
 
 #title {
@@ -314,8 +320,10 @@ a:focus {
 /*
     Second step is nothing special, just a text with a link, so it doesn't need
     any special styling.
+    第二张幻灯片没有什么特别的,只是一段带有链接的文本,所以它不需要什么特别的样式.
 
     Let's move to 'big thoughts' with centered text and custom font sizes.
+    让我们把目光放到'big thoughts'上吧,在这张幻灯片里有居中的文本以及一些自定义的字号样式.
 */
 #big {
     width: 600px;
@@ -337,6 +345,7 @@ a:focus {
 
 /*
     'Tiny ideas' just need some tiny styling.
+    'Tiny ideas' 就需要一些极小的样式.
 */
 #tiny {
     width: 500px;
@@ -345,12 +354,15 @@ a:focus {
 
 /*
     This step has some animated text ...
+    这张幻灯片里有一些带有动画的文本 ...
 */
 #ing { width: 500px }
 
 /*
     ... so we define display to `inline-block` to enable transforms and
     transition duration to 0.5s ...
+    ... 所以我们要将这些有动画的文本显示为`inline-block`才能进行变形(transform)
+    并且设置它的过渡时间(transition duration)为0.5s ...
 */
 #ing b {
     display: inline-block;
@@ -364,6 +376,8 @@ a:focus {
 /*
     ... and we want 'positioning` word to move up a bit when the step gets
     `present` class ...
+    ... 然后我们想要让带有'positioning'类的单词在得到了`present`类时(也就是幻灯片播
+    放时)往上升起来一点点 ...
 */
 #ing.present .positioning {
     -webkit-transform: translateY(-10px);
@@ -375,6 +389,7 @@ a:focus {
 
 /*
     ... 'rotating' to rotate a quarter of a second later ...
+    ... 'rotating' 可以让带有'rotating'类的单词在四分之一秒后(延迟)旋转 ...
 */
 #ing.present .rotating {
     -webkit-transform: rotate(-10deg);
@@ -392,6 +407,8 @@ a:focus {
 
 /*
     ... and 'scaling' to scale down after another quarter of a second.
+    ... 然后'scaling'可以让带有'scaling'类的单词在下一个四分之一秒后(也就是一共延迟
+    0.5秒)缩小.
 */
 #ing.present .scaling {
     -webkit-transform: scale(0.7);
@@ -409,6 +426,7 @@ a:focus {
 
 /*
     The 'imagination' step is again some boring font-sizing.
+    'imagination'幻灯片也是一些单纯的调整文字大小而已.
 */
 
 #imagination {
@@ -422,12 +440,17 @@ a:focus {
 /*
     There is nothing really special about 'use the source, Luke' step, too,
     except maybe of the Yoda background.
+    在'use the source, Luke'这张幻灯片里面也是没有什么特别的东西,也许就只有那张Yoda
+    背景特别一点吧.
 
     As you can see below I've 'hard-coded' it in data URL.
     That's not the best way to serve images, but because that's just this one
     I decided it will be OK to have it this way.
+    正如你所见,我在URL上面写了'硬代码'('hard-coded')直接输出一张照片.
+    这不是提供照片的最好方式,但因为就只有这一张照片,我觉得用这种方式就可以了.
 
     Just make sure you don't blindly copy this approach.
+    千万不要盲目地仿照这种方法.
 */
 #source {
     width: 700px;
@@ -445,11 +468,15 @@ a:focus {
 
 /*
     And the "it's in 3D" step again brings some 3D typography - just for fun.
+    接下来的"it's in 3D"幻灯片再次带来了3D排版 - 只是为了好玩.
 
     Because we want to position <span> elements in 3D we set transform-style to
     `preserve-3d` on the paragraph.
     It is not needed by webkit browsers, but it is in Firefox. It's hard to say
     which behaviour is correct as 3D transforms spec is not very clear about it.
+    由于我们想要将<span>元素在3D上进行定位,所以我们将它的transform-style属性设置为`preserve-3D`.
+    在webkit内核的浏览器上不需要这么做,但是在Firefox上面需要.现在的3D变形规范还不是非常明确,
+    所以很难辩说到底哪种做法是对的.
 */
 #its-in-3d p {
     -webkit-transform-style: preserve-3d;
@@ -462,8 +489,11 @@ a:focus {
 /*
     Below we position each word separately along Z axis and we want it to transition
     to default position in 0.5s when the step gets `present` class.
+    下面我们将每个单词在Z轴上单独设置一个定位,然后在幻灯片播放时我们让它们在0.5s的时间里过渡到默认位
+    置.
 
     Quite a simple idea, but lot's of styles and prefixes.
+    只是一个很简单的主意,但是却要写一大堆的样式以及它们的前缀.
 */
 #its-in-3d span,
 #its-in-3d b {
@@ -544,13 +574,16 @@ a:focus {
     The last step is an overview.
     There is no content in it, so we make sure it's not visible because we want
     to be able to click on other steps.
-
+    最后一张幻灯片是一个鸟瞰图.
+    在这张幻灯片里没哟任何的内容,所以我们要保证它不可见,这样我们才能点击到其它的幻灯片.
 */
 #overview { display: none }
 
 /*
     We also make other steps visible and give them a pointer cursor using the
     `impress-on-` class.
+    我们还要通过`impress-on-`类将其它幻灯片全部设置为完全可见(就是将透明度设置为1)并且给
+    它们一个表示可点击的鼠标样式(pointer cursor).
 */
 .impress-on-overview .step {
     opacity: 1;
