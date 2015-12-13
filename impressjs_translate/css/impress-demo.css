@@ -594,26 +594,36 @@ a:focus {
 /*
     Now, when we have all the steps styled let's give users a hint how to navigate
     around the presentation.
+    现在,当我们给所有幻灯片都添加了样式之后,我们给用户提供一个关于幻灯片导航的提示.
 
     The best way to do this would be to use JavaScript, show a delayed hint for a
     first time users, then hide it and store a status in cookie or localStorage...
+    最好是用JavaScript来完成这件事情,当第一次展示这个演示文稿时设置一个延迟然后显示提示,接着隐
+    藏它并且在cookie或localStorage里保存一个状态.
 
     But I wanted to have some CSS fun and avoid additional scripting...
+    但是我想用一些有趣的CSS实现方式并且减少额外的脚本...
 
     Let me explain it first, so maybe the transition magic will be more readable
     when you read the code.
+    先让我来解释一下吧,或许它能让代码更具可读性.
 
     First of all I wanted the hint to appear only when user is idle for a while.
     You can't detect the 'idle' state in CSS, but I delayed a appearing of the
     hint by 5s using transition-delay.
+    首先,我想让这提示只在用户没有任何操作的时候才出现.你无法在CSS里检测到'idle'状态,但是我通过
+    transition-delay给提示的出现添加了一个5s的延迟.
 
     You also can't detect in CSS if the user is a first-time visitor, so I had to
     make an assumption that I'll only show the hint on the first step. And when
     the step is changed hide the hint, because I can assume that user already
     knows how to navigate.
+    你也不能再CSS里检测用户是不是首次访问,所以我要做个假设,假设这提示只会在第一张幻灯片出现.当切
+    换幻灯片时将提示隐藏掉,因为我已经默认用户已经知道怎么浏览了.
 
     To summarize it - hint is shown when the user is on the first step for longer
     than 5 seconds.
+    总结一下 - 提示在当用户待在第一张幻灯片里超过5秒钟没有操作时就会显示.
 
     The other problem I had was caused by the fact that I wanted the hint to fade
     in and out. It can be easily achieved by transitioning the opacity property.
